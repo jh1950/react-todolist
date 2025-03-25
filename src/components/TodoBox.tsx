@@ -18,20 +18,40 @@ export default function TodoBox({
 	remove,
 }: TodoBoxProps) {
 	const formRef = useRef<HTMLFormElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
 	const [isMod, setIsMod] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
+
+	const closeMenu = () => {
+		setMenuOpen(false);
+	};
 
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		update(id, e.currentTarget.input.value);
 		setIsMod(false);
-		setMenuOpen(false);
+		closeMenu();
 	};
 
 	useEffect(() => {
 		if (isMod !== true) return;
 		formRef.current?.input.focus();
 	}, [isMod]);
+
+	useEffect(() => {
+		const handle = (e: MouseEvent) => {
+			const menu = menuRef.current;
+			if (!menu) return;
+			if (menu.contains(e.target as Node)) return;
+			setMenuOpen(false);
+		};
+
+		window.addEventListener("mousedown", handle);
+
+		return () => {
+			window.removeEventListener("mousedown", handle);
+		};
+	}, [menuOpen]);
 
 	return (
 		<article className="relative bg-(--bd-color)/40 rounded-md shadow-md p-2 flex items-center gap-2">
@@ -48,6 +68,7 @@ export default function TodoBox({
 							</button>
 						:
 							<div
+								ref={menuRef}
 								className={`
 									absolute right-1 top-1
 									bg-(--bg-color) rounded-md shadow-md
@@ -60,7 +81,7 @@ export default function TodoBox({
 								aria-orientation="vertical"
 								aria-labelledby={`menu-button-${id}`}
 							>
-								<button className="text-(--text-color) flex justify-center" type="button" onClick={() => setMenuOpen(false)}><FaXmark/></button>
+								<button className="text-(--text-color) flex justify-center" type="button" onClick={closeMenu}><FaXmark/></button>
 								<button className="text-(--text-color)" type="button" onClick={() => setIsMod(true)}>Mod</button>
 								<button className="text-red-500" type="button" onClick={remove}>Del</button>
 							</div>
