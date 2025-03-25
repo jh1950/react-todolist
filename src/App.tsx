@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { FaArrowDownWideShort, FaArrowUpShortWide } from "react-icons/fa6";
 
-import { Header, Section, Input, Button } from "./components";
+import { useDarkmode } from "./hooks";
+import { Header, Section, Input, Button, ToggleButton } from "./components";
 
 
 
 export default function App() {
+	const [darkmode, updateDarkmode] = useDarkmode();
 	const [reverse, setReverse] = useState(localStorage.getItem("reverse") === "true");
 
 	const updateReverse = () => {
@@ -26,7 +28,10 @@ export default function App() {
 
 	return (
 		<>
-			<Header>Todo List</Header>
+			<Header>
+				Todo List
+				<ToggleButton className="absolute right-4" aria-pressed={darkmode} onClick={() => updateDarkmode()}/>
+			</Header>
 
 			<Section>
 				<form className="flex items-center gap-2" onSubmit={submit}>

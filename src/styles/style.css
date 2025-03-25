@@ -1,9 +1,11 @@
 :root {
 	--bg-color: var(--color-theme-bg-light);
 	--text-color: var(--color-theme-text-dark);
+	--bd-color: var(--color-theme-bd-light);
 } :root[mode="dark"] {
 	--bg-color: var(--color-theme-bg-dark);
 	--text-color: var(--color-theme-text-light);
+	--bd-color: var(--color-theme-bd-dark);
 }
 
 :root {
