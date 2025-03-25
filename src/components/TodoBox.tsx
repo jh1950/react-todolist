@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { FaXmark, FaEllipsisVertical } from "react-icons/fa6";
 
 import { TodoType } from "../hooks";
-import { Form, Button } from "../components";
+import { Form } from "../components";
 
 
 
@@ -16,23 +17,54 @@ export default function TodoBox({
 	update,
 	remove,
 }: TodoBoxProps) {
+	const formRef = useRef<HTMLFormElement>(null);
 	const [isMod, setIsMod] = useState(false);
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		update(id, e.currentTarget.input.value);
 		setIsMod(false);
+		setMenuOpen(false);
 	};
 
+	useEffect(() => {
+		if (isMod !== true) return;
+		formRef.current?.input.focus();
+	}, [isMod]);
+
 	return (
-		<article className="bg-(--bd-color)/40 rounded-md shadow-md p-2 flex items-center gap-2">
+		<article className="relative bg-(--bd-color)/40 rounded-md shadow-md p-2 flex items-center gap-2">
 			{
 				isMod
-				? <Form className="w-full" onSubmit={submit} defaultValue={label} label="Save"/>
+				? <Form ref={formRef} className="w-full" onSubmit={submit} defaultValue={label} label="Save"/>
 				: <>
 					<span className="flex-1 break-all">{label}</span>
-					<Button className="bg-(--bd-color)" onClick={() => setIsMod(true)}>Mod</Button>
-					<Button className="bg-red-500/90" onClick={remove}>Del</Button>
+					{
+						!menuOpen
+						? 
+							<button id={`menu-button-${id}`} type="button" aria-expanded={menuOpen} aria-haspopup="menu" onClick={() => setMenuOpen(true)}>
+								<FaEllipsisVertical/>
+							</button>
+						:
+							<div
+								className={`
+									absolute right-1 top-1
+									bg-(--bg-color) rounded-md shadow-md
+									flex flex-col
+
+									[&_button]:px-4 [&_button]:py-1 [&_button]:rounded-md
+									[&_button]:hover:bg-(--bd-color)
+								`.replace(/\s+/g, " ").trim()}
+								role="menu"
+								aria-orientation="vertical"
+								aria-labelledby={`menu-button-${id}`}
+							>
+								<button className="text-(--text-color) flex justify-center" type="button" onClick={() => setMenuOpen(false)}><FaXmark/></button>
+								<button className="text-(--text-color)" type="button" onClick={() => setIsMod(true)}>Mod</button>
+								<button className="text-red-500" type="button" onClick={remove}>Del</button>
+							</div>
+					}
 				</>
 			}
 		</article>
