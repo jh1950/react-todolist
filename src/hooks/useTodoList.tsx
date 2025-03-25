@@ -20,9 +20,13 @@ export default function useTodoList(init: string[] = []) {
 		}]);
 	};
 
+	const updateTodoList = (id: string, label: string) => {
+		setTodoList(prev => prev.map(x => x.id === id ? { ...x, label } : x));
+	};
+
 	const removeTodoList = (id: string) => {
 		setTodoList(prev => prev.filter(x => x.id !== id));
 	};
 
-	return [todoList, addTodoList, removeTodoList] as [typeof todoList, typeof addTodoList, typeof removeTodoList];
+	return [todoList, addTodoList, updateTodoList, removeTodoList] as [typeof todoList, typeof addTodoList, typeof updateTodoList, typeof removeTodoList];
 };

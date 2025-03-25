@@ -9,7 +9,7 @@ export default function Section({
 }: ButtonProps) {
 	return (
 		<button
-			className={`${className} px-2.5 py-0.75 rounded-md text-theme-text-dark font-semibold`.trim()}
+			className={`${className} px-2.5 py-0.75 rounded-md font-semibold`.trim()}
             type={type}
 			{...props}
 		/>
