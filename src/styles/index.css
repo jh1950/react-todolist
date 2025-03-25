@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@import "./style.css" layer(base);
+
+
+
+@theme {
+	--color-theme-primary: #5cc9ff;
+	--color-theme-dark: #0071a9;
+
+	--color-theme-bg-light: white;
+	--color-theme-bg-dark: theme(color.neutral.900);
+	--color-theme-text-light: theme(colors.neutral.200);
+	--color-theme-text-dark: theme(color.neutral.800);
+}

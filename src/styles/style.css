@@ -1,0 +1,19 @@
+:root {
+	--bg-color: var(--color-theme-bg-light);
+	--text-color: var(--color-theme-text-dark);
+} :root[mode="dark"] {
+	--bg-color: var(--color-theme-bg-dark);
+	--text-color: var(--color-theme-text-light);
+}
+
+:root {
+	@apply bg-(--bg-color) text-(--text-color);
+}
+
+
+
+
+a, button, [role="button"], [role="switch"], [role="link"] {
+	@apply cursor-pointer;
+	@apply transition hover:text-(--color-theme-primary);
+}
