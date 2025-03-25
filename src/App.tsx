@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { FaArrowDownWideShort, FaArrowUpShortWide } from "react-icons/fa6";
 
-import { useDarkmode } from "./hooks";
-import { Header, Section, Input, Button, ToggleButton } from "./components";
+import { useDarkmode, useTodoList } from "./hooks";
+import { Header, Section, Input, Button, ToggleButton, TodoBox } from "./components";
 
 
 
 export default function App() {
 	const [darkmode, updateDarkmode] = useDarkmode();
+	const [todoList, addTodoList, removeTodoList] = useTodoList();
 	const [reverse, setReverse] = useState(localStorage.getItem("reverse") === "true");
 
 	const updateReverse = () => {
@@ -21,7 +22,8 @@ export default function App() {
 		e.preventDefault();
 
 		const val = e.currentTarget.input.value.trim();
-		console.log( val );
+		if (!val) return;
+		addTodoList(val);
 
 		e.currentTarget.reset();
 	};
@@ -35,14 +37,17 @@ export default function App() {
 
 			<Section>
 				<form className="flex items-center gap-2" onSubmit={submit}>
-					<label role="switch">
-						{reverse ? <FaArrowUpShortWide/> : <FaArrowDownWideShort/>}
-						<Button onClick={updateReverse} hidden/>
-					</label>
+					<button type="button" onClick={updateReverse} role="switch">{reverse ? <FaArrowUpShortWide/> : <FaArrowDownWideShort/>}</button>
 					<Input name="input" className="flex-1" placeholder="New Item..."/>
-					<Button className="bg-theme-primary" type="submit">Add</Button>
+					<Button className="bg-theme-primary hover:bg-theme-dark" type="submit">Add</Button>
 				</form>
 			</Section>
+
+			{todoList.length !== 0 && <Section>
+				<div className={`flex ${reverse ? "flex-col-reverse" : "flex-col"} gap-4 py-4 border-t-1 border-dashed border-(--bd-color)`}>
+					{todoList.map(x => <TodoBox key={x.id} remove={() => removeTodoList(x.id)} {...x}/>)}
+				</div>
+			</Section>}
 		</>
 	);
 };
