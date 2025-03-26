@@ -2,7 +2,7 @@ type ButtonProps = React.ComponentPropsWithoutRef<"button">;
 
 
 
-export default function Section({
+export default function Button({
 	className="",
     type="button",
 	...props
