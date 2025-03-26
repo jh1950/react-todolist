@@ -20,6 +20,7 @@ export default function ToggleButton({
 				h-[1.25em] w-[2.25em]
 				px-[.125em]
 				transition-[background-color]
+				hover:[&_span]:bg-(--color)
 			`.replace(/\s+/g, " ").trim()}
 			aria-pressed={isPressed}
 			style={{
@@ -32,6 +33,7 @@ export default function ToggleButton({
 			<span
 				className={`
 					relative transition-[background-color,left]
+					border-[0.0625em] border-(--bg-color)
 					${isPressed ? "left-[calc(100%-1em)]" : "left-0"}
 					bg-(--bg-color) rounded-full
 					block h-[1em] w-[1em]
