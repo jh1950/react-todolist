@@ -1,30 +1,34 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from "react";
 
 
 
 export interface TodoType {
-	id: string;
+	id: number;
 	label: string;
 };
 
 
 
-export default function useTodoList(init: string[] = []) {
-	const [todoList, setTodoList] = useState<TodoType[]>(init.map(x => ({id: uuidv4(), label: x})));
+export default function useTodoList() {
+	const init = JSON.parse(localStorage.getItem("todoList") || "[]") as TodoType[];
+	const [todoList, setTodoList] = useState<TodoType[]>(init);
+
+	useEffect(() => {
+		localStorage.setItem("todoList", JSON.stringify(todoList));
+	}, [todoList]);
 
 	const addTodoList = (label: string) => {
 		setTodoList(prev => [...prev, {
-			id: uuidv4(),
+			id: (prev[prev.length-1]?.id || 0) + 1,
 			label: label,
 		}]);
 	};
 
-	const updateTodoList = (id: string, label: string) => {
+	const updateTodoList = (id: number, label: string) => {
 		setTodoList(prev => prev.map(x => x.id === id ? { ...x, label } : x));
 	};
 
-	const removeTodoList = (id: string) => {
+	const removeTodoList = (id: number) => {
 		setTodoList(prev => prev.filter(x => x.id !== id));
 	};
 

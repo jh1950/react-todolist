@@ -7,8 +7,8 @@ import { Form } from "../components";
 
 
 interface TodoBoxProps extends TodoType {
-	update: (id: string, label: string) => void;
-	remove: () => void;
+	update: (id: number, label: string) => void;
+	remove: (id: number) => void;
 };
 
 export default function TodoBox({
@@ -91,7 +91,7 @@ export default function TodoBox({
 						tabIndex={-1}
 					>
 						<button role="menuitem" className="text-(--text-color)" type="button" onClick={() => setIsMod(true)}>Mod</button>
-						<button role="menuitem" className="text-red-500" type="button" onClick={remove}>Del</button>
+						<button role="menuitem" className="text-red-500" type="button" onClick={() => remove(id)}>Del</button>
 					</div>
 				</>
 			}

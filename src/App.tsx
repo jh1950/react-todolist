@@ -28,6 +28,10 @@ export default function App() {
 		e.currentTarget.reset();
 	};
 
+	const remove = (id: number) => {
+		removeTodoList(id);
+	};
+
 	return (
 		<>
 			<Header>
@@ -42,7 +46,7 @@ export default function App() {
 
 			{todoList.length !== 0 && <Section>
 				<div className={`flex ${reverse ? "flex-col-reverse" : "flex-col"} gap-4 py-4 border-t-1 border-dashed border-(--bd-color)`}>
-					{todoList.map(x => <TodoBox key={x.id} update={updateTodoList} remove={() => removeTodoList(x.id)} {...x}/>)}
+					{todoList.map(x => <TodoBox key={x.id} update={updateTodoList} remove={remove} {...x}/>)}
 				</div>
 			</Section>}
 		</>
