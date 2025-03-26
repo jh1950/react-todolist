@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { FaEllipsisVertical } from "react-icons/fa6";
+import { FaStar, FaEllipsisVertical } from "react-icons/fa6";
 
 import { TodoType } from "../hooks";
 import { Form, Button } from "../components";
@@ -7,13 +7,14 @@ import { Form, Button } from "../components";
 
 
 interface TodoBoxProps extends TodoType {
-	update: (id: number, label: string) => void;
+	update: (item: TodoType) => void;
 	remove: (id: number) => void;
 };
 
 export default function TodoBox({
 	id,
 	label,
+	important,
 	update,
 	remove,
 }: TodoBoxProps) {
@@ -25,7 +26,7 @@ export default function TodoBox({
 
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		update(id, e.currentTarget.input.value);
+		update({id, label: e.currentTarget.input.value.trim()});
 		setIsMod(false);
 		btnRef.current?.focus();
 	};
@@ -67,8 +68,11 @@ export default function TodoBox({
 	}, []);
 
 	return (
-		<article className="bg-(--bd-color)/40 rounded-md shadow-md p-2">
+		<article className="bg-(--bd-color)/50 rounded-md shadow-md p-2">
 			<div className="relative flex items-center gap-2" aria-hidden={isMod} hidden={isMod}>
+				<button type="button" className={`${important ? "text-theme-primary hover:text-theme-dark" : "text-(--bg-color) hover:text-(--text-color)"}`} onClick={() => update({id, important: !important})}>
+					<FaStar/>
+				</button>
 				<span className="flex-1 break-all">{label}</span>
 				<button ref={btnRef} id={`menu-button-${id}`} type="button" aria-expanded={menuOpen} aria-haspopup="menu" onClick={() => setMenuOpen(p => !p)}>
 					<FaEllipsisVertical/>
@@ -94,7 +98,7 @@ export default function TodoBox({
 				</div>
 			</div>
 			{isMod &&
-				<Form ref={formRef} className="w-full" onSubmit={submit} defaultValue={label} label="Save"/>
+				<Form ref={formRef} className="w-full" onSubmit={submit} defaultValue={label} label="Save" cancel={() => setIsMod(false)}/>
 			}
 		</article>
 	);

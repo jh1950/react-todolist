@@ -4,28 +4,35 @@ import { useState, useEffect } from "react";
 
 export interface TodoType {
 	id: number;
-	label: string;
+	label?: string;
+	important?: boolean;
 };
 
 
 
 export default function useTodoList() {
 	const init = JSON.parse(localStorage.getItem("todoList") || "[]") as TodoType[];
-	const [todoList, setTodoList] = useState<TodoType[]>(init);
+	const [todoList, setTodoList] = useState(init);
 
 	useEffect(() => {
 		localStorage.setItem("todoList", JSON.stringify(todoList));
 	}, [todoList]);
 
-	const addTodoList = (label: string) => {
+	const addTodoList = (item: Omit<TodoType, "id">) => {
 		setTodoList(prev => [...prev, {
 			id: (prev[prev.length-1]?.id || 0) + 1,
-			label: label,
+			...item,
 		}]);
 	};
 
-	const updateTodoList = (id: number, label: string) => {
-		setTodoList(prev => prev.map(x => x.id === id ? { ...x, label } : x));
+	const updateTodoList = (item: TodoType) => {
+		setTodoList(p => p.map(prev => {
+			if (prev.id !== item.id) return prev;
+			return {
+				...prev,
+				...item,
+			};
+		}));
 	};
 
 	const removeTodoList = (id: number) => {

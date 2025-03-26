@@ -21,9 +21,9 @@ export default function App() {
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const val = e.currentTarget.input.value.trim();
+		const val = e.currentTarget.input.value.trim() as string;
 		if (!val) return;
-		addTodoList(val);
+		addTodoList({label: val});
 
 		e.currentTarget.reset();
 	};
