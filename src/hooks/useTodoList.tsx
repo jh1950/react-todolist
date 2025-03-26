@@ -9,10 +9,19 @@ export interface TodoType {
 	completed?: boolean;
 };
 
+export interface FullTodoType extends TodoType {
+	createdAt: number;
+	modifiedAt?: number;
+};
 
+
+
+const getTime = () => {
+	return new Date().getTime();
+};
 
 export default function useTodoList() {
-	const init = JSON.parse(localStorage.getItem("todoList") || "[]") as TodoType[];
+	const init = JSON.parse(localStorage.getItem("todoList") || "[]") as FullTodoType[];
 	const [todoList, setTodoList] = useState(init);
 
 	useEffect(() => {
@@ -23,6 +32,7 @@ export default function useTodoList() {
 		setTodoList(prev => [...prev, {
 			id: (prev[prev.length-1]?.id || 0) + 1,
 			...item,
+			createdAt: getTime(),
 		}]);
 	};
 
@@ -32,6 +42,7 @@ export default function useTodoList() {
 			return {
 				...prev,
 				...item,
+				modifiedAt: getTime(),
 			};
 		}));
 	};
