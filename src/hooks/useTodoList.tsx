@@ -6,6 +6,7 @@ export interface TodoType {
 	id: number;
 	label?: string;
 	important?: boolean;
+	completed?: boolean;
 };
 
 

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { FaStar, FaEllipsisVertical } from "react-icons/fa6";
+import { FaStar, FaCheck, FaEllipsisVertical } from "react-icons/fa6";
 
 import { TodoType } from "../hooks";
 import { Form, Button } from "../components";
@@ -11,10 +11,32 @@ interface TodoBoxProps extends TodoType {
 	remove: (id: number) => void;
 };
 
+const IconButton = ({
+	color,
+	active=false,
+	type="button",
+	className="",
+	style={},
+	...props
+}: {
+	color?: string,
+	active?: boolean,
+} & React.ComponentPropsWithoutRef<"button">) => {
+	return (
+		<button
+			type={type}
+			className={`${className} ${active ? "text-theme-primary hover:text-theme-dark" : "text-(--color) hover:text-(--text-color)"}`.trim()}
+			style={{ "--color": color, ...style } as React.CSSProperties}
+			{...props}
+		/>
+	);
+};
+
 export default function TodoBox({
 	id,
 	label,
-	important,
+	important=false,
+	completed=false,
 	update,
 	remove,
 }: TodoBoxProps) {
@@ -70,9 +92,8 @@ export default function TodoBox({
 	return (
 		<article className="bg-(--bd-color)/50 rounded-md shadow-md p-2">
 			<div className="relative flex items-center gap-2" aria-hidden={isMod} hidden={isMod}>
-				<button type="button" className={`${important ? "text-theme-primary hover:text-theme-dark" : "text-(--bg-color) hover:text-(--text-color)"}`} onClick={() => update({id, important: !important})}>
-					<FaStar/>
-				</button>
+				<IconButton active={important} color="var(--bg-color)" onClick={() => update({id, important: !important})}><FaStar/></IconButton>
+				<IconButton active={completed} color="var(--bd-color)" onClick={() => update({id, completed: !completed})}><FaCheck/></IconButton>
 				<span className="flex-1 break-all">{label}</span>
 				<button ref={btnRef} id={`menu-button-${id}`} type="button" aria-expanded={menuOpen} aria-haspopup="menu" onClick={() => setMenuOpen(p => !p)}>
 					<FaEllipsisVertical/>
