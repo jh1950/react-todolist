@@ -9,6 +9,7 @@
 }
 
 :root {
+	@apply transition-[color,background-color];
 	@apply bg-(--bg-color) text-(--text-color);
 }
 
