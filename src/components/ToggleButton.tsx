@@ -1,4 +1,8 @@
-interface ToggleButtonProps extends Omit<React.ComponentPropsWithoutRef<"button">, "children"> {
+import Button, { ButtonProps } from "./Button";
+
+
+
+interface ToggleButtonProps extends Omit<ButtonProps, "children"> {
 	color?: string;
 };
 
@@ -12,7 +16,7 @@ export default function ToggleButton({
 	...props
 }: ToggleButtonProps) {
 	return (
-		<button
+		<Button
 			className={`
 				${className}
 				${isPressed == true ? "bg-(--color) border-(--color)" : "bg-(--bd-color) border-transparent"}
@@ -38,6 +42,6 @@ export default function ToggleButton({
 					block h-[1em] w-[1em]
 				`.replace(/\s+/g, " ").trim()}
 			/>
-		</button>
+		</Button>
 	);
 };

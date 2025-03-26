@@ -18,4 +18,7 @@
 a, button, [role="button"], [role="switch"], [role="link"] {
 	@apply cursor-pointer;
 	@apply transition hover:text-(--color-theme-primary);
+} .btn {
+	@apply px-2.5 py-0.75;
+	@apply rounded-md font-medium;
 }

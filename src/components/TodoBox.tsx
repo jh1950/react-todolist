@@ -14,7 +14,6 @@ interface TodoBoxProps extends TodoType {
 const IconButton = ({
 	color,
 	active=false,
-	type="button",
 	className="",
 	style={},
 	...props
@@ -23,8 +22,7 @@ const IconButton = ({
 	active?: boolean,
 } & React.ComponentPropsWithoutRef<"button">) => {
 	return (
-		<button
-			type={type}
+		<Button
 			className={`${className} ${active ? "text-theme-primary hover:text-theme-dark" : "text-(--color) hover:text-(--text-color)"}`.trim()}
 			style={{ "--color": color, ...style } as React.CSSProperties}
 			{...props}
@@ -95,9 +93,9 @@ export default function TodoBox({
 				<IconButton active={important} color="var(--bg-color)" onClick={() => update({id, important: !important})}><FaStar/></IconButton>
 				<IconButton active={completed} color="var(--bd-color)" onClick={() => update({id, completed: !completed})}><FaCheck/></IconButton>
 				<span className="flex-1 break-all">{label}</span>
-				<button ref={btnRef} id={`menu-button-${id}`} type="button" aria-expanded={menuOpen} aria-haspopup="menu" onClick={() => setMenuOpen(p => !p)}>
+				<Button ref={btnRef} id={`menu-button-${id}`} type="button" aria-expanded={menuOpen} aria-haspopup="menu" onClick={() => setMenuOpen(p => !p)}>
 					<FaEllipsisVertical/>
-				</button>
+				</Button>
 				<div
 					ref={menuRef}
 					className={`
@@ -114,8 +112,8 @@ export default function TodoBox({
 					aria-labelledby={`menu-button-${id}`}
 					tabIndex={-1}
 				>
-					<Button role="menuitem" className="text-(--text-color)" onClick={() => setIsMod(true)}>Modify</Button>
-					<Button role="menuitem" className="text-red-500" onClick={() => remove(id)}>Delete</Button>
+					<Button role="menuitem" className="btn text-(--text-color)" onClick={() => setIsMod(true)}>Modify</Button>
+					<Button role="menuitem" className="btn text-red-500" onClick={() => remove(id)}>Delete</Button>
 				</div>
 			</div>
 			{isMod &&

@@ -1,13 +1,14 @@
-type ButtonProps = React.ComponentPropsWithoutRef<"button">;
+import { forwardRef } from "react";
 
 
 
-export default function Button({
-	className="",
+export type ButtonProps = React.ComponentPropsWithRef<"button">;
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     type="button",
 	onClick,
 	...props
-}: ButtonProps) {
+}, ref) => {
 	const click = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		e.stopPropagation();
 		if (onClick) onClick(e);
@@ -15,10 +16,12 @@ export default function Button({
 
 	return (
 		<button
-			className={`${className} px-2.5 py-0.75 rounded-md font-semibold`.trim()}
+			ref={ref}
             type={type}
 			onClick={click}
 			{...props}
 		/>
 	);
-};
+});
+
+export default Button;
