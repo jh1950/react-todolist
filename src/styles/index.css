@@ -9,9 +9,16 @@
 	--color-theme-dark: #0071a9;
 
 	--color-theme-bg-light: white;
-	--color-theme-bg-dark: theme(color.neutral.900);
-	--color-theme-text-light: theme(colors.neutral.200);
-	--color-theme-text-dark: theme(color.neutral.800);
-	--color-theme-bd-light: theme(color.neutral.300);
-	--color-theme-bd-dark: theme(color.neutral.700);
+	--color-theme-bg-dark: theme(--color-neutral-900);
+	--color-theme-text-light: theme(--color-neutral-200);
+	--color-theme-text-dark: theme(--color-neutral-800);
+	--color-theme-bd-light: theme(--color-neutral-300);
+	--color-theme-bd-dark: theme(--color-neutral-700);
+
+	--color-theme-red: theme(--color-red-600);
+	--color-theme-orange: theme(--color-orange-600);
+	--color-theme-yellow: theme(--color-yellow-500);
+	--color-theme-green: theme(--color-green-600);
+	--color-theme-blue: theme(--color-blue-600);
+	--color-theme-purple: theme(--color-purple-600);
 }

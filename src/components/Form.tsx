@@ -39,7 +39,7 @@ const Form = forwardRef<HTMLFormElement, FormProps>(({
 
 	return (
 		<form ref={ref} className={`${className} flex items-center gap-2`.trim()} onSubmit={submit} {...props}>
-			<Input name="input" defaultValue={defaultValue} className="flex-1 [&.error]:border-red-500" placeholder="New Item..." onFocus={e => e.currentTarget.classList.remove("error")}/>
+			<Input name="input" defaultValue={defaultValue} className="flex-1 [&.error]:border-theme-red" placeholder="New Item..." onFocus={e => e.currentTarget.classList.remove("error")}/>
 			{cancel !== undefined && <Button className="border-1 border-(--bd-color) bg-(--bd-color) hover:bg-transparent text-(--text-color)" type="button" onClick={cancel}>Cancel</Button>}
 			<Button className="border-1 border-theme-primary hover:border-theme-dark bg-theme-primary hover:bg-theme-dark text-theme-text-dark" type="submit">{label}</Button>
 		</form>
