@@ -15,10 +15,11 @@ export default function ToggleButton({
 		<button
 			className={`
 				${className}
-				${isPressed == true ? "bg-(--color) border-(--color)" : "bg-transparent border-(--text-color)"}
+				${isPressed == true ? "bg-(--color) border-(--color)" : "bg-(--bd-color) border-transparent"}
 				border-1 rounded-full
 				h-[1.25em] w-[2.25em]
 				px-[.125em]
+				transition-[background-color]
 			`.replace(/\s+/g, " ").trim()}
 			aria-pressed={isPressed}
 			style={{
@@ -30,9 +31,10 @@ export default function ToggleButton({
 		>
 			<span
 				className={`
-					relative transition-[left] ${isPressed ? "left-[calc(100%-1em)]" : "left-0"}
-					${isPressed ? "bg-(--bg-color) border-transparent" : "bg-(--bd-color) border-(--text-color)"}
-					block h-[1em] w-[1em] border rounded-full
+					relative transition-[background-color,left]
+					${isPressed ? "left-[calc(100%-1em)]" : "left-0"}
+					bg-(--bg-color) rounded-full
+					block h-[1em] w-[1em]
 				`.replace(/\s+/g, " ").trim()}
 			/>
 		</button>
