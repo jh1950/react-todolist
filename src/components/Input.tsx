@@ -18,6 +18,7 @@ export default function Input({
 			className={`${className} outline-0 transition border-b-1 focus:border-theme-primary placeholder-(--text-color)/50`.trim()}
 			autoComplete={autoComplete}
 			onClick={click}
+			size={1}
 			{...props}
 		/>
 	);

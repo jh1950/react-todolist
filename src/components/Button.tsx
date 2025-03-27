@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 export type ButtonProps = React.ComponentPropsWithRef<"button">;
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
-    type="button",
+	type="button",
 	onClick,
 	...props
 }, ref) => {
@@ -17,7 +17,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 	return (
 		<button
 			ref={ref}
-            type={type}
+			type={type}
 			onClick={click}
 			{...props}
 		/>
