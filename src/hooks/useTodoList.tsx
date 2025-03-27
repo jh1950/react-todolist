@@ -12,6 +12,7 @@ export interface TodoType {
 export interface FullTodoType extends TodoType {
 	createdAt: number;
 	modifiedAt?: number;
+	completedAt?: number;
 };
 
 
@@ -37,12 +38,16 @@ export default function useTodoList() {
 	};
 
 	const updateTodoList = (item: TodoType) => {
+		const update: Partial<FullTodoType> = {...item};
+		if (item.label) update.modifiedAt = getTime();
+		if (item.completed !== undefined) update.completedAt = item.completed ? getTime() : undefined;
+
 		setTodoList(p => p.map(prev => {
 			if (prev.id !== item.id) return prev;
 			return {
 				...prev,
 				...item,
-				modifiedAt: getTime(),
+				...update,
 			};
 		}));
 	};

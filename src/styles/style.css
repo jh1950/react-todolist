@@ -15,10 +15,12 @@
 
 
 
-
 a, button, [role="button"], [role="switch"], [role="link"] {
-	@apply cursor-pointer;
 	@apply transition hover:text-(--color-theme-primary);
+} :where(a, button, [role="button"], [role="switch"], [role="link"]):not(:disabled) {
+	@apply cursor-pointer;
+} :where(a, button, [role="button"], [role="switch"], [role="link"]):disabled {
+	@apply pointer-events-none opacity-50;
 } .btn {
 	@apply px-2.5 py-0.75;
 	@apply rounded-md font-medium;
