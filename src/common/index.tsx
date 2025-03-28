@@ -1,1 +1,1 @@
-export { default as toTimeString } from "./toTimeString";
+export { default as timeToString } from "./timeToString";

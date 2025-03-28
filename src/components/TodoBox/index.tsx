@@ -3,6 +3,7 @@ import { FaStar, FaRegCircleCheck, FaEllipsisVertical } from "react-icons/fa6";
 
 import { TodoType, FullTodoType } from "../../hooks";
 
+import { timeToString } from "../../common";
 import { Form, Button } from "..";
 import Completed from "./Completed";
 import Menu from "./Menu";
@@ -33,23 +34,23 @@ export default function TodoBox({
 	const btnRef = useRef<HTMLButtonElement>(null);
 	const [boxOpen, setBoxOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [isModify, setIsModify] = useState(false);
+	const [editmode, setEditmode] = useState(false);
 
-	const updateIsModify = (value: React.SetStateAction<boolean>) => {
-		setIsModify(value);
+	const updateEditmode = (value: React.SetStateAction<boolean>) => {
+		setEditmode(value);
 		setMenuOpen(false);
 	};
 
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		update({id, label: e.currentTarget.input.value.trim()});
-		updateIsModify(false);
+		updateEditmode(false);
 	};
 
 	useEffect(() => {
-		if (isModify !== true) return;
+		if (editmode !== true) return;
 		formRef.current?.input.focus();
-	}, [isModify]);
+	}, [editmode]);
 
 	useEffect(() => {
 		if (!menuOpen) return;
@@ -159,15 +160,15 @@ export default function TodoBox({
 					className={`
 						absolute top-[calc((var(--box-min-height)-1em)/2)] right-2
 						text-(--text-color) hover:text-theme-primary z-1
-						${!boxOpen && isModify ? "opacity-0" : "opacity-100"}
+						${!boxOpen && editmode ? "opacity-0" : "opacity-100"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => setMenuOpen(p => !p)}
 					aria-label={`${menuOpen ? "Close" : "Open"} Menu`}
 					aria-expanded={menuOpen}
 					aria-haspopup="menu"
 					aria-controls={`menu-${id}`}
-					aria-hidden={!boxOpen && isModify}
-					tabIndex={!boxOpen && isModify ? -1 : 0}
+					aria-hidden={!boxOpen && editmode}
+					tabIndex={!boxOpen && editmode ? -1 : 0}
 					children={<FaEllipsisVertical/>}
 				/>
 
@@ -181,7 +182,7 @@ export default function TodoBox({
 					`.replace(/\s+/g, " ").trim()}
 				>
 					{
-						!isModify
+						!editmode
 						? boxOpen ? label : <Button
 							className="w-full text-left text-(--text-color)"
 							onClick={() => setBoxOpen(p => !p)}
@@ -193,7 +194,7 @@ export default function TodoBox({
 							className="relative -top-[3px]"
 							defaultValue={label}
 							label="Save"
-							cancel={() => setIsModify(false)} onSubmit={submit}
+							cancel={() => setEditmode(false)} onSubmit={submit}
 						/>
 					}
 				</div>
@@ -206,9 +207,9 @@ export default function TodoBox({
 						text-sm
 					`.replace(/\s+/g, " ").trim()}
 				>
-					<span>Created at: {createdAt}</span>
-					<span>Modified at: {modifiedAt}</span>
-					<span>Completed at: {completedAt}</span>
+					<span>Created at: {timeToString(createdAt)}</span>
+					<span>Modified at: {modifiedAt ? timeToString(modifiedAt) : "-"}</span>
+					<span>Completed at: {completedAt ? timeToString(completedAt) : "-"}</span>
 				</div>
 			</div>
 
@@ -216,10 +217,10 @@ export default function TodoBox({
 				<Button
 					role="menuitem"
 					className="btn text-(--text-color)"
-					onClick={() => updateIsModify(true)}
-					disabled={isModify}
-					aria-pressed={isModify}
-					children="Modify"
+					onClick={() => updateEditmode(true)}
+					disabled={editmode}
+					aria-pressed={editmode}
+					children="Edit"
 				/>
 				<Button
 					role="menuitem"
