@@ -47,7 +47,7 @@ export default function App() {
 		<>
 			<Header>
 				Todo List
-				<ToggleButton className="absolute right-4" aria-pressed={darkmode} onClick={() => updateDarkmode()}/>
+				<ToggleButton className="absolute right-4" aria-label="Dark Mode: On/Off" active={darkmode} onClick={() => updateDarkmode()}/>
 			</Header>
 
 			<Section className="flex gap-2 items-center">
@@ -56,9 +56,9 @@ export default function App() {
 
 			{todoList.length !== 0 && <Section>
 				<div className="border-t-1 border-dashed border-(--bd-color) py-4 flex gap-x-3 gap-y-2 flex-wrap">
-					<CheckBox label="Sort by Latest" checked={latest} onChange={() => updateState(setLatest, "latest")}/>
-					<CheckBox label="Important" checked={important} onChange={() => updateState(setImportant, "important")}/>
-					<CheckBox label="Completed" checked={completed} onChange={() => updateState(setCompleted, "completed")}/>
+					<CheckBox label="Sort by Latest" active={latest} onChange={() => updateState(setLatest, "latest")}/>
+					<CheckBox label="Important" active={important} onChange={() => updateState(setImportant, "important")}/>
+					<CheckBox label="Completed" active={completed} onChange={() => updateState(setCompleted, "completed")}/>
 				</div>
 				<div className="flex flex-col gap-4">
 					{items.map(x => <TodoBox key={x.id} update={updateTodoList} remove={remove} {...x}/>)}

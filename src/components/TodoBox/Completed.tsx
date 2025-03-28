@@ -5,7 +5,6 @@ import { FaCertificate, FaCheck } from "react-icons/fa6";
 export default function Completed({
 	active=false,
 	className="",
-	"aria-hidden": ariaHidden,
 	...props
 }: {
 	active?: boolean;
@@ -19,7 +18,7 @@ export default function Completed({
 				transition-[opacity] ${active ? "opacity-5" : "opacity-0"}
 				after:content-["Completed!"]
 			`.replace(/\s+/g, " ").trim()}
-			aria-hidden={ariaHidden !== undefined ? ariaHidden : !active}
+			aria-hidden={!active}
 			{...props}
 		>
 			<div className="relative">

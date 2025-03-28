@@ -188,6 +188,7 @@ export default function TodoBox({
 					{
 						!editmode
 						? <Label
+							role="none"
 							className={`
 								w-full
 								text-left text-(--text-color)
@@ -223,7 +224,7 @@ export default function TodoBox({
 				</div>
 			</div>
 
-			<Menu ref={menuRef} active={!menuOpen} id={`menu-${id}`} className="absolute top-2 right-6 z-1 bg-(--bg-color) rounded-md shadow-md">
+			<Menu ref={menuRef} active={menuOpen} id={`menu-${id}`} className="absolute top-2 right-6 z-1 bg-(--bg-color) rounded-md shadow-md">
 				<Button
 					role="menuitem"
 					className="btn text-(--text-color)"

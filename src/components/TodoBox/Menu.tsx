@@ -12,8 +12,6 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>(({
 	active=false,
 	className="",
 	role="menu",
-	hidden,
-	"aria-hidden": ariaHidden,
 	...props
 }, ref) => {
 	return (
@@ -26,8 +24,8 @@ const Menu = forwardRef<HTMLDivElement, MenuProps>(({
 				[&_button]:hover:bg-(--bd-color)
 			`.replace(/\s+/g, " ").trim()}
 			role={role}
-			hidden={hidden !== undefined ? hidden : active}
-			aria-hidden={ariaHidden !== undefined ? ariaHidden : active}
+			hidden={!active}
+			aria-hidden={!active}
 			{...props}
 		/>
 	);
