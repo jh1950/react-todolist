@@ -1,10 +1,12 @@
+import { FaCheck } from "react-icons/fa6";
+
 import { InputProps } from "./Input";
 
 
 
 export default function CheckBox({
 	label,
-	className,
+	className="",
 	checked,
 	"aria-checked": ariaChecked,
 	...props
@@ -21,18 +23,17 @@ export default function CheckBox({
 			<input
 				type="checkbox"
 				className={`
-					appearance-none relative
+					appearance-none transition
+					relative w-4 h-4 rounded-sm
 					border-1 border-(--bd-color)
-					w-4 h-4 rounded-sm font-bold
-					flex justify-center items-center
-					hover:border-theme-primary checked:hover:bg-theme-dark
-					checked:bg-theme-primary checked:border-theme-primary
-					checked:before:absolute checked:before:content-["\\2713"]
+					hover:border-theme-primary checked:bg-theme-primary
+					checked:border-theme-primary checked:hover:bg-theme-dark
 				`.replace(/\s+/g, " ").trim()}
 				checked={checked}
 				aria-checked={ariaChecked !== undefined ? ariaChecked : checked}
 				{...props}
 			/>
+			<FaCheck className={`absolute p-0.5 transition-[color] ${checked ? "text-(--bg-color)" : "text-transparent"}`}/>
 			{label}
 		</label>
 	);
