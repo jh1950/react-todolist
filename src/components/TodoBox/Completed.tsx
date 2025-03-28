@@ -15,9 +15,9 @@ export default function Completed({
 			className={`
 				${className}
 				inline-flex justify-center items-center gap-1
-				text-lg font-semibold italic
+				text-lg font-semibold italic -rotate-5
 				transition-[opacity] ${active ? "opacity-5" : "opacity-0"}
-				select-none -rotate-5
+				after:content-["Completed!"]
 			`.replace(/\s+/g, " ").trim()}
 			aria-hidden={ariaHidden !== undefined ? ariaHidden : !active}
 			{...props}
@@ -26,7 +26,6 @@ export default function Completed({
 				<FaCertificate/>
 				<FaCheck className="text-(--bg-color) absolute top-[25%] left-[25%] h-[50%] w-[50%]"/>
 			</div>
-			Completed!
 		</div>
 	);
 };
