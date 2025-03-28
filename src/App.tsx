@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaArrowDownWideShort, FaArrowUpShortWide } from "react-icons/fa6";
 
 import { useDarkmode, useTodoList } from "./hooks";
-import { Header, Section, Form, ToggleButton, TodoBox } from "./components";
+import { Header, Section, Form, Button, ToggleButton, TodoBox } from "./components";
 
 
 
@@ -10,6 +10,7 @@ export default function App() {
 	const [darkmode, updateDarkmode] = useDarkmode();
 	const [todoList, addTodoList, updateTodoList, removeTodoList] = useTodoList();
 	const [reverse, setReverse] = useState(localStorage.getItem("reverse") === "true");
+	const items = reverse ? [...todoList].reverse() : todoList;
 
 	const updateReverse = () => {
 		setReverse(p => {
@@ -40,13 +41,13 @@ export default function App() {
 			</Header>
 
 			<Section className="flex gap-2 items-center">
-				<button type="button" onClick={updateReverse} role="switch">{reverse ? <FaArrowUpShortWide/> : <FaArrowDownWideShort/>}</button>
+				<Button onClick={updateReverse} role="switch" children={reverse ? <FaArrowUpShortWide/> : <FaArrowDownWideShort/>}/>
 				<Form className="flex-1" onSubmit={submit}/>
 			</Section>
 
-			{todoList.length !== 0 && <Section>
-				<div className={`flex ${reverse ? "flex-col-reverse" : "flex-col"} gap-4 py-4 border-t-1 border-dashed border-(--bd-color)`}>
-					{todoList.map(x => <TodoBox key={x.id} update={updateTodoList} remove={remove} {...x}/>)}
+			{items.length !== 0 && <Section>
+				<div className="flex flex-col gap-4 py-4 border-t-1 border-dashed border-(--bd-color)">
+					{items.map(x => <TodoBox key={x.id} update={updateTodoList} remove={remove} {...x}/>)}
 				</div>
 			</Section>}
 		</>

@@ -1,10 +1,9 @@
-type InputProps = React.ComponentPropsWithoutRef<"input">;
+export type InputProps = Omit<React.ComponentPropsWithoutRef<"input">, "children">;
 
 
 
 export default function Input({
 	className="",
-	autoComplete="off",
 	onClick,
 	...props
 }: InputProps) {
@@ -15,10 +14,13 @@ export default function Input({
 
 	return (
 		<input
-			className={`${className} outline-0 transition border-b-1 focus:border-theme-primary placeholder-(--text-color)/50`.trim()}
-			autoComplete={autoComplete}
+			className={`
+				${className}
+				outline-0 transition
+				border-b-1 focus:border-theme-primary
+				placeholder-(--text-color)/50
+			`.replace(/\s+/g, " ").trim()}
 			onClick={click}
-			size={1}
 			{...props}
 		/>
 	);

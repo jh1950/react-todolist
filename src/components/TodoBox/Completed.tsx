@@ -16,7 +16,7 @@ export default function Completed({
 				${className}
 				inline-flex justify-center items-center gap-1
 				text-lg font-semibold italic
-				transition-[opacity] ${active ? "opacity-10" : "opacity-0"}
+				transition-[opacity] ${active ? "opacity-5" : "opacity-0"}
 				select-none -rotate-5
 			`.replace(/\s+/g, " ").trim()}
 			aria-hidden={ariaHidden !== undefined ? ariaHidden : !active}

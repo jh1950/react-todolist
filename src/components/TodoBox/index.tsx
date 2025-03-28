@@ -107,15 +107,15 @@ export default function TodoBox({
 					p-2 shadow-md
 					bg-(--bd-color)/50 rounded-md
 					h-(--box-height)
-					border-1 border-(--bd-color)/25
+					border-1
 					transition-[height,box-shadow,border-color]
-					${completed ? "border-theme-primary" : "border-(--bd-color)/25"}
+					${important ? "border-theme-primary" : "border-(--bd-color)/25"}
 				`.replace(/\s+/g, " ").trim()}
 			>
 				<Completed
 					active={completed}
 					className={`
-						absolute -z-1
+						absolute
 						top-0 left-0
 						h-full w-full
 					`.replace(/\s+/g, " ").trim()}
