@@ -105,7 +105,8 @@ export default function TodoBox({
 					bg-(--bd-color)/50 rounded-md
 					h-(--box-height)
 					border-1 border-(--bd-color)/25
-					transition-[height,box-shadow]
+					transition-[height,box-shadow,border-color]
+					${completed ? "border-theme-primary" : "border-(--bd-color)/25"}
 				`.replace(/\s+/g, " ").trim()}
 			>
 				<Completed
@@ -176,6 +177,7 @@ export default function TodoBox({
 					className={`
 						relative
 						transition-[top,left,width]
+						overflow-hidden overflow-ellipsis
 						${boxOpen ? "top-(--box-min-height)" : "top-[4px]"}
 						${boxOpen ? "left-0" : "left-[24px]"}
 						${boxOpen ? "w-full" : "w-[calc(100%-24px)]"}
@@ -184,7 +186,11 @@ export default function TodoBox({
 					{
 						!editmode
 						? boxOpen ? label : <Button
-							className="w-full text-left text-(--text-color)"
+							className={`
+								w-full pr-[16px]
+								text-left text-(--text-color)
+								block overflow-hidden overflow-ellipsis
+							`.replace(/\s+/g, " ").trim()}
 							onClick={() => setBoxOpen(p => !p)}
 							children={label}
 							tabIndex={-1}
