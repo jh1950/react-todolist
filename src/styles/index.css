@@ -22,3 +22,13 @@
 	--color-theme-blue: theme(--color-blue-600);
 	--color-theme-purple: theme(--color-purple-600);
 }
+
+
+
+@custom-variant hover {
+	&:hover {
+		@media (hover: hover) and (pointer: fine) {
+			@slot;
+		}
+	}
+}
