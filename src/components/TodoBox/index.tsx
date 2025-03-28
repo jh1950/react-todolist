@@ -7,6 +7,7 @@ import { timeToString } from "../../common";
 import { Form, Button } from "..";
 import Completed from "./Completed";
 import Menu from "./Menu";
+import IconButton from "./IconButton";
 
 
 
@@ -88,6 +89,8 @@ export default function TodoBox({
 		};
 	}, []);
 
+	const Label = boxOpen ? "span" : Button;
+
 	return (
 		<article
 			className="relative"
@@ -131,22 +134,22 @@ export default function TodoBox({
 					aria-expanded={boxOpen}
 					aria-controls={`details-${id}`}
 				/>
-				<Button
+				<IconButton
+					color="var(--bg-color)"
+					active={important}
 					className={`
 						absolute top-[calc((var(--box-min-height)-1em)/2)] left-2
-						${important ? "text-theme-primary" : "text-(--bg-color)"}
-						${important ? "hover:text-theme-dark" : "hover:text-theme-primary"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => update({id, important: !important})}
 					aria-label={`${important ? "Unmark" : "Mark"} as Important`}
 					aria-pressed={important}
 					children={<FaStar/>}
 				/>
-				<Button
+				<IconButton
+					color="var(--bd-color)"
+					active={completed}
 					className={`
 						absolute top-[calc((var(--box-min-height)-1em)/2)] left-7
-						${completed ? "text-theme-primary" : "text-(--bd-color)"}
-						${completed ? "hover:text-theme-dark" : "hover:text-theme-primary"}
 						transition-[opacity] ${boxOpen ? "opacity-100" : "opacity-0"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => update({id, completed: !completed})}
@@ -156,12 +159,12 @@ export default function TodoBox({
 					tabIndex={boxOpen ? 0 : -1}
 					children={<FaRegCircleCheck/>}
 				/>
-				<Button
+				<IconButton
 					ref={btnRef}
 					className={`
-						absolute top-[calc((var(--box-min-height)-1em)/2)] right-2
-						text-(--text-color) hover:text-theme-primary z-1
-						${!boxOpen && editmode ? "opacity-0" : "opacity-100"}
+						absolute right-2
+						top-[calc((var(--box-min-height)-1em)/2)]
+						${!boxOpen && editmode ? "opacity-0 -z-1" : "opacity-100 z-1"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => setMenuOpen(p => !p)}
 					aria-label={`${menuOpen ? "Close" : "Open"} Menu`}
@@ -177,7 +180,6 @@ export default function TodoBox({
 					className={`
 						relative
 						transition-[top,left,width]
-						overflow-hidden overflow-ellipsis
 						${boxOpen ? "top-(--box-min-height)" : "top-[4px]"}
 						${boxOpen ? "left-0" : "left-[24px]"}
 						${boxOpen ? "w-full" : "w-[calc(100%-24px)]"}
@@ -185,13 +187,15 @@ export default function TodoBox({
 				>
 					{
 						!editmode
-						? boxOpen ? label : <Button
+						? <Label
 							className={`
-								w-full pr-[16px]
+								w-full
 								text-left text-(--text-color)
 								block overflow-hidden overflow-ellipsis
+								transition-[padding-right]
+								${boxOpen ? "pr-0" : "pr-[16px]"}
 							`.replace(/\s+/g, " ").trim()}
-							onClick={() => setBoxOpen(p => !p)}
+							onClick={boxOpen ? undefined : () => setBoxOpen(p => !p)}
 							children={label}
 							tabIndex={-1}
 						/>
