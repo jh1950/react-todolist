@@ -1,23 +1,33 @@
 import { useState } from "react";
-import { FaArrowDownWideShort, FaArrowUpShortWide } from "react-icons/fa6";
 
 import { useDarkmode, useTodoList } from "./hooks";
-import { Header, Section, Form, Button, ToggleButton, TodoBox } from "./components";
+import { Header, Section, Form, CheckBox, ToggleButton, TodoBox } from "./components";
 
 
+
+const getItem = (key: string) => {
+	return localStorage.getItem(key);
+};
+
+const updateState = (setState: (value: React.SetStateAction<boolean>) => void, key: string, val?: boolean) => {
+	setState(p => {
+		const v = val !== undefined ? val : !p;
+		localStorage[key] = v;
+		return v;
+	});
+};
 
 export default function App() {
 	const [darkmode, updateDarkmode] = useDarkmode();
 	const [todoList, addTodoList, updateTodoList, removeTodoList] = useTodoList();
-	const [reverse, setReverse] = useState(localStorage.getItem("reverse") === "true");
-	const items = reverse ? [...todoList].reverse() : todoList;
 
-	const updateReverse = () => {
-		setReverse(p => {
-			localStorage["reverse"] = !p;
-			return !p;
-		});
-	};
+	const [latest, setLatest] = useState(getItem("latest") !== "false");
+	const [important, setImportant] = useState(getItem("important") === "true");
+	const [completed, setCompleted] = useState(getItem("completed") !== "false");
+
+	const items = (latest ? [...todoList].reverse() : todoList)
+	.filter(x => important ? x.important : x)
+	.filter(x => completed ? x : x.completed !== true)
 
 	const submit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -41,12 +51,16 @@ export default function App() {
 			</Header>
 
 			<Section className="flex gap-2 items-center">
-				<Button onClick={updateReverse} role="switch" children={reverse ? <FaArrowUpShortWide/> : <FaArrowDownWideShort/>}/>
 				<Form className="flex-1" onSubmit={submit}/>
 			</Section>
 
-			{items.length !== 0 && <Section>
-				<div className="flex flex-col gap-4 py-4 border-t-1 border-dashed border-(--bd-color)">
+			{todoList.length !== 0 && <Section>
+				<div className="border-t-1 border-dashed border-(--bd-color) py-4 flex gap-x-3 gap-y-2 flex-wrap">
+					<CheckBox label="Sort by Latest" checked={latest} onChange={() => updateState(setLatest, "latest")}/>
+					<CheckBox label="Important" checked={important} onChange={() => updateState(setImportant, "important")}/>
+					<CheckBox label="Completed" checked={completed} onChange={() => updateState(setCompleted, "completed")}/>
+				</div>
+				<div className="flex flex-col gap-4">
 					{items.map(x => <TodoBox key={x.id} update={updateTodoList} remove={remove} {...x}/>)}
 				</div>
 			</Section>}
