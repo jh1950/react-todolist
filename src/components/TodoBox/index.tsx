@@ -4,10 +4,9 @@ import { FaStar, FaRegCircleCheck, FaEllipsisVertical } from "react-icons/fa6";
 import { TodoType, FullTodoType } from "../../hooks";
 
 import { timeToString } from "../../common";
-import { Form, Button } from "..";
+import { Form, Button, IconButton } from "..";
 import Completed from "./Completed";
 import Menu from "./Menu";
-import IconButton from "./IconButton";
 
 
 
@@ -89,8 +88,6 @@ export default function TodoBox({
 		};
 	}, []);
 
-	const Label = boxOpen ? "span" : Button;
-
 	return (
 		<article
 			className="relative"
@@ -109,7 +106,7 @@ export default function TodoBox({
 					h-(--box-height)
 					border-1
 					transition-[height,box-shadow,border-color]
-					${important ? "border-theme-primary" : "border-(--bd-color)/25"}
+					${important ? "border-theme-primary/75" : "border-(--bd-color)/25"}
 				`.replace(/\s+/g, " ").trim()}
 			>
 				<Completed
@@ -146,10 +143,9 @@ export default function TodoBox({
 					children={<FaStar/>}
 				/>
 				<IconButton
-					color="var(--bd-color)"
 					active={completed}
 					className={`
-						absolute top-[calc((var(--box-min-height)-1em)/2)] left-7
+						absolute top-[calc((var(--box-min-height)-1em)/2)] left-8
 						transition-[opacity] ${boxOpen ? "opacity-100" : "opacity-0"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => update({id, completed: !completed})}
@@ -161,6 +157,7 @@ export default function TodoBox({
 				/>
 				<IconButton
 					ref={btnRef}
+					color="var(--text-color)"
 					className={`
 						absolute right-2
 						top-[calc((var(--box-min-height)-1em)/2)]
@@ -187,18 +184,16 @@ export default function TodoBox({
 				>
 					{
 						!editmode
-						? <Label
-							role="none"
+						? <span
 							className={`
 								w-full
 								text-left text-(--text-color)
 								block overflow-hidden overflow-ellipsis
 								transition-[padding-right]
-								${boxOpen ? "pr-0" : "pr-[16px]"}
+								${boxOpen ? "pr-0" : "pr-[16px] cursor-pointer"}
 							`.replace(/\s+/g, " ").trim()}
 							onClick={boxOpen ? undefined : () => setBoxOpen(p => !p)}
 							children={label}
-							tabIndex={-1}
 						/>
 						: <Form
 							ref={formRef}

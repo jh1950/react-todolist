@@ -13,7 +13,7 @@ export default function Section({
 
 	return (
 		<Elem
-			className={`${className} relative my-4 mx-auto max-w-[550px] px-2`.trim()}
+			className={`${className} relative my-4 mx-auto max-w-[550px] px-3`.trim()}
 			{...props}
 		/>
 	);

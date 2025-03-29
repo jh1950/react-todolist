@@ -56,5 +56,5 @@ export default function useTodoList() {
 		setTodoList(prev => prev.filter(x => x.id !== id));
 	};
 
-	return [todoList, addTodoList, updateTodoList, removeTodoList] as [typeof todoList, typeof addTodoList, typeof updateTodoList, typeof removeTodoList];
+	return [[...todoList].reverse(), addTodoList, updateTodoList, removeTodoList] as [typeof todoList, typeof addTodoList, typeof updateTodoList, typeof removeTodoList];
 };

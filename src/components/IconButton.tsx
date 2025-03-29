@@ -1,9 +1,9 @@
-import { Button, ButtonProps } from "..";
+import { Button, ButtonProps } from ".";
 
 
 
 export default function IconButton({
-	color="var(--text-color)",
+	color="var(--bd-color)",
 	active=false,
 	className="",
 	style={},
