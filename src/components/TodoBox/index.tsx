@@ -99,15 +99,16 @@ export default function TodoBox({
 		>
 			<div
 				className={`
-					relative
-					overflow-hidden
-					p-2 shadow-md
-					bg-(--bd-color)/50 rounded-md
-					h-(--box-height)
-					border-1
+					relative bg-(--bd-color)/50
+					shadow-md rounded-md
+					p-2 h-(--box-height)
+					border-1 overflow-hidden
 					transition-[height,box-shadow,border-color]
 					${important ? "border-theme-primary/75" : "border-(--bd-color)/25"}
 				`.replace(/\s+/g, " ").trim()}
+				style={{
+					"--icon-top": "calc((var(--box-min-height) - 1em) / 2)",
+				} as React.CSSProperties}
 			>
 				<Completed
 					active={completed}
@@ -135,7 +136,7 @@ export default function TodoBox({
 					color="var(--bg-color)"
 					active={important}
 					className={`
-						absolute top-[calc((var(--box-min-height)-1em)/2)] left-2
+						absolute left-2 top-(--icon-top)
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => update({id, important: !important})}
 					aria-label={`${important ? "Unmark" : "Mark"} as Important`}
@@ -145,8 +146,9 @@ export default function TodoBox({
 				<IconButton
 					active={completed}
 					className={`
-						absolute top-[calc((var(--box-min-height)-1em)/2)] left-8
-						transition-[opacity] ${boxOpen ? "opacity-100" : "opacity-0"}
+						absolute left-8 top-(--icon-top)
+						transition-[opacity]
+						${boxOpen ? "opacity-100" : "opacity-0"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => update({id, completed: !completed})}
 					aria-label={`${important ? "Unmark" : "Mark"} as Completed`}
@@ -159,8 +161,7 @@ export default function TodoBox({
 					ref={btnRef}
 					color="var(--text-color)"
 					className={`
-						absolute right-2
-						top-[calc((var(--box-min-height)-1em)/2)]
+						absolute right-2 top-(--icon-top)
 						${!boxOpen && editmode ? "opacity-0 -z-1" : "opacity-100 z-1"}
 					`.replace(/\s+/g, " ").trim()}
 					onClick={() => setMenuOpen(p => !p)}
@@ -175,8 +176,7 @@ export default function TodoBox({
 
 				<div
 					className={`
-						relative
-						transition-[top,left,width]
+						relative transition-[top,left,width]
 						${boxOpen ? "top-(--box-min-height)" : "top-[4px]"}
 						${boxOpen ? "left-0" : "left-[24px]"}
 						${boxOpen ? "w-full" : "w-[calc(100%-24px)]"}
@@ -186,9 +186,9 @@ export default function TodoBox({
 						!editmode
 						? <span
 							className={`
-								w-full
+								block w-full
 								text-left text-(--text-color)
-								block overflow-hidden overflow-ellipsis
+								overflow-hidden overflow-ellipsis
 								transition-[padding-right]
 								${boxOpen ? "pr-0" : "pr-[16px] cursor-pointer"}
 							`.replace(/\s+/g, " ").trim()}
@@ -209,8 +209,7 @@ export default function TodoBox({
 					className={`
 						absolute top-[calc(var(--box-min-height)*2-.5rem)]
 						flex flex-col
-						text-(--text-color)/50
-						text-sm
+						text-(--text-color)/50 text-sm
 					`.replace(/\s+/g, " ").trim()}
 				>
 					<span>Created at: {timeToString(createdAt)}</span>
@@ -219,7 +218,15 @@ export default function TodoBox({
 				</div>
 			</div>
 
-			<Menu ref={menuRef} active={menuOpen} id={`menu-${id}`} className="absolute top-2 right-6 z-1 bg-(--bg-color) rounded-md shadow-md">
+			<Menu
+				ref={menuRef}
+				active={menuOpen}
+				id={`menu-${id}`}
+				className={`
+					absolute top-2 right-6 z-1
+					bg-(--bg-color) rounded-md shadow-md
+				`.replace(/\s+/g, " ").trim()}
+			>
 				<Button
 					role="menuitem"
 					className="btn text-(--text-color)"

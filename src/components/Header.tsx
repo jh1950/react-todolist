@@ -13,7 +13,11 @@ export default function Header({
 	return (
 		<Section
 			as="header"
-			className={`${className} relative text-center text-lg font-semibold mb-8`.trim()}
+			className={`
+				${className}
+				mb-8 text-center
+				text-lg font-semibold
+			`.replace(/\s+/g, " ").trim()}
 			{...props}
 		/>
 	);
